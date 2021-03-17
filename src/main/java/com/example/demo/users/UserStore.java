@@ -2,23 +2,27 @@ package com.example.demo.users;
 
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Repository
 class UserStore {
-    private final List<String> userDb = new ArrayList<>();
+    private final Map<String, User> userDb = new HashMap<>();
 
-    public void store(String username) {
-        userDb.add(username);
+    public String store(String username) {
+        String userId = UUID.randomUUID().toString();
+        userDb.put(userId, new User(userId, username));
+        return userId;
     }
 
     public int count() {
         return userDb.size();
     }
 
-    public List<String> findAll() {
-        return new ArrayList<>(userDb);
+    public List<User> findAll() {
+        return new ArrayList<>(userDb.values());
     }
 
+    public Optional<User> findOne(String userId) {
+        return Optional.ofNullable(userDb.get(userId));
+    }
 }
