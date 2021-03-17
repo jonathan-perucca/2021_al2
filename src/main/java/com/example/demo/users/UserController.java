@@ -2,14 +2,14 @@ package com.example.demo.users;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
@@ -41,8 +41,11 @@ public class UserController {
     // alors réponse 201 avec header
     // Location : <url pour l'api de récupération du user>
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request,
-                                        HttpServletRequest initRequest) {
+    public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
+        if ("none".equalsIgnoreCase(request.getUsername())) {
+            throw new IllegalNameException("Illegal name for none");
+        }
+
         String userId = userService.addUser(request.getUsername());
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -52,7 +55,4 @@ public class UserController {
 
         return ResponseEntity.created(uri).build();
     }
-
-
 }
-
