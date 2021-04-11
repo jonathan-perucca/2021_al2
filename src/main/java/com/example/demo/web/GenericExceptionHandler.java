@@ -1,6 +1,7 @@
-package com.example.demo.users;
+package com.example.demo.web;
 
 
+import com.example.demo.users.infra.web.exception.IllegalNameException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

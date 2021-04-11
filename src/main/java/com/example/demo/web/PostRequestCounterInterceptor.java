@@ -1,4 +1,4 @@
-package com.example.demo.users;
+package com.example.demo.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,9 +1,10 @@
-package com.example.demo.users;
+package com.example.demo.users.infra.web;
 
-import lombok.Data;
+import com.example.demo.users.domain.UserService;
+import com.example.demo.users.infra.web.exception.IllegalNameException;
+import com.example.demo.users.infra.web.request.CreateUserRequest;
+import com.example.demo.users.infra.web.response.UserResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Accessors;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -20,26 +22,28 @@ import static org.springframework.http.ResponseEntity.ok;
 public class UserController {
 
     private final UserService userService;
+    private final UserAdapter userAdapter;
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ok(userService.findAll());
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        var users = userService.findAll()
+                .stream()
+                .map(userAdapter::map)
+                .collect(toList());
+
+        return ok(users);
     }
 
-    // une api GET /api/users/{id} pour récupérer le user
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(
+    public ResponseEntity<UserResponse> findById(
            @PathVariable("id") String userId
     ) {
         return userService.findOne(userId)
+                .map(userAdapter::map)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> notFound().build());
     }
 
-    // une api POST { "username": "Smith" } pour créer un user
-    // si on a réussi a créer le user
-    // alors réponse 201 avec header
-    // Location : <url pour l'api de récupération du user>
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
         if ("none".equalsIgnoreCase(request.getUsername())) {

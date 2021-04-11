@@ -1,4 +1,4 @@
-package com.example.demo.users;
+package com.example.demo.web;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

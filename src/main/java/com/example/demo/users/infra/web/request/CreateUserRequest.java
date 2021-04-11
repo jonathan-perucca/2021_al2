@@ -1,4 +1,4 @@
-package com.example.demo.users;
+package com.example.demo.users.infra.web.request;
 
 import lombok.Data;
 

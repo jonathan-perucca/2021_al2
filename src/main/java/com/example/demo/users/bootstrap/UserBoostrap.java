@@ -1,5 +1,6 @@
-package com.example.demo.users;
+package com.example.demo.users.bootstrap;
 
+import com.example.demo.users.domain.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;

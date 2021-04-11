@@ -1,12 +1,11 @@
 package com.example.demo.users;
 
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "app.users")
-class UserConfig {
+public class UserConfig {
 
     /**
      * Max users allowed to register
