@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-class UserBoostrap {
+class UserBootstrap {
 
     private final UserService userService;
 
@@ -17,5 +17,8 @@ class UserBoostrap {
         for (int i = 0; i < 2; i++) {
             userService.addUser("Bootstraped-"+i);
         }
+
+        String userId = userService.addUser("ToBeActivatedUser");
+        userService.considerActive(userId);
     }
 }

@@ -8,4 +8,5 @@ public interface UserRepository {
     int count();
     List<User> findAll();
     Optional<User> findOne(String userId);
+    void save(User user);
 }

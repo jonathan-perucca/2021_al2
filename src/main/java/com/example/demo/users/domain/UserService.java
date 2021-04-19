@@ -33,4 +33,10 @@ public class UserService {
     public Optional<User> findOne(String userId) {
         return userRepository.findOne(userId);
     }
+
+    public void considerActive(String userId) {
+        userRepository.findOne(userId)
+                .map(User::activate)
+                .ifPresent(userRepository::save);
+    }
 }
